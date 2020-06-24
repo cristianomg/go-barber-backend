@@ -12,7 +12,6 @@ class AppointmentController {
         const appointmentRepository = getCustomRepository(
             AppointmentRepository
         );
-        console.log(request.user);
         const appointments = await appointmentRepository.find();
         return response.json({
             result: appointments,
@@ -33,8 +32,10 @@ class AppointmentController {
                 date: parsedDate,
             });
             return response.json(appointment);
-        } catch (Error) {
-            return response.status(400).json({ message: Error.message });
+        } catch (err) {
+            return response
+                .status(err.statusCode)
+                .json({ message: err.message });
         }
     }
 }
