@@ -12,6 +12,7 @@ class AppointmentController {
         const appointmentRepository = getCustomRepository(
             AppointmentRepository
         );
+        console.log(request.user);
         const appointments = await appointmentRepository.find();
         return response.json({
             result: appointments,
@@ -23,12 +24,12 @@ class AppointmentController {
         request: Request,
         response: Response
     ): Promise<Response> {
-        const { provider, date } = request.body;
+        const { provider_id, date } = request.body;
         const parsedDate = parseISO(date);
         try {
             const createAppointmentService = new CreateAppointmentService();
             const appointment = await createAppointmentService.execute({
-                provider,
+                provider_id,
                 date: parsedDate,
             });
             return response.json(appointment);
