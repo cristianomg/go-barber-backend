@@ -25,18 +25,12 @@ class AppointmentController {
     ): Promise<Response> {
         const { provider_id, date } = request.body;
         const parsedDate = parseISO(date);
-        try {
-            const createAppointmentService = new CreateAppointmentService();
-            const appointment = await createAppointmentService.execute({
-                provider_id,
-                date: parsedDate,
-            });
-            return response.json(appointment);
-        } catch (err) {
-            return response
-                .status(err.statusCode)
-                .json({ message: err.message });
-        }
+        const createAppointmentService = new CreateAppointmentService();
+        const appointment = await createAppointmentService.execute({
+            provider_id,
+            date: parsedDate,
+        });
+        return response.json(appointment);
     }
 }
 

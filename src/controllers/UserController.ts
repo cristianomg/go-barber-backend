@@ -29,18 +29,14 @@ export default class UserController {
         request: Request,
         response: Response
     ): Promise<Response> {
-        try {
-            const { id: user_id } = request.user;
-            const avatarFilename = request.file.filename;
-            const updateUserAvatar = new UpdateUserAvatarService();
-            const user = await updateUserAvatar.execute({
-                user_id,
-                avatarFilename,
-            });
-            delete user.password;
-            return response.status(200).json(user);
-        } catch (err) {
-            return response.status(err.statusCode).json({ error: err.message });
-        }
+        const { id: user_id } = request.user;
+        const avatarFilename = request.file.filename;
+        const updateUserAvatar = new UpdateUserAvatarService();
+        const user = await updateUserAvatar.execute({
+            user_id,
+            avatarFilename,
+        });
+        delete user.password;
+        return response.status(200).json(user);
     }
 }
